@@ -6,7 +6,7 @@ const drinkSchema = ({
     ingredients:{type:String, required:true},
     method:{type:String, required:true},
     user: {type: mongoose.Schema.Types.ObjectId, ref:'user'},
-    comments: {type: mongoose.Schema.Types.ObjectId, ref:'comment'}
+    comments: [{type: mongoose.Schema.Types.ObjectId, ref:'comment'}]
 })
 
 module.exports = mongoose.model('drink', drinkSchema)

@@ -7,7 +7,7 @@ router.get("/", drinkController.indexDrink)
 router.post("/new", drinkController.createDrink)
 router.get("/:id", drinkController.showDrink)
 router.put("/:id", drinkController.updateDrink)
-router.get("/:id", drinkController.deleteDrink)
+router.delete("/:id", drinkController.deleteDrink)
 
 
 
