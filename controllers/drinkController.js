@@ -14,7 +14,7 @@ const createDrink = async (req, res) => {
     try {
         const newDrink = await new Drink({
             ...req.body,
-            
+            // user: req.user.id
         })
         console.log(newDrink)
         const savedDrink = await newDrink.save()
