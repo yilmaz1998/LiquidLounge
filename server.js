@@ -9,6 +9,7 @@ const authRouter = require('./routers/authRouter')
 const drinkRouter = require('./routers/drinkRouter')
 const commentRouter = require('./routers/commentRouter')
 const favoriteRouter = require('./routers/favoriteRouter')
+const classicDrinkRouter = require('./routers/classicDrinkRouter')
 
 
 app.use(express.json())
@@ -17,6 +18,7 @@ app.use('/auth', authRouter)
 app.use('/drink', drinkRouter)
 app.use('/comment', commentRouter)
 app.use('/favorite', favoriteRouter)
+app.use('/classic', classicDrinkRouter)
 
 app.listen(port, () => {
     console.log(`Server is running on ${port}`)

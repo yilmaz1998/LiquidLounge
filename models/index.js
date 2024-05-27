@@ -14,5 +14,6 @@ module.exports = {
     Drink: require('./drink'),
     User: require('./user'),
     Comment: require('./comment'),
-    Favorite: require('./favorite')
+    Favorite: require('./favorite'),
+    Classic: require('./classic')
 }
