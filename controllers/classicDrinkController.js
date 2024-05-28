@@ -19,6 +19,7 @@ const showClassicDrink = async (req, res) => {
         if (!classicDrink) {
             return res.status(400).json({ error: "Classic Drink not found" })
         }
+        res.status(200).json(classicDrink)
     } catch (err) {
         res.status(400).json({ message: err.message })
     }
