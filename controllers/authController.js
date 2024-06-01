@@ -16,7 +16,7 @@ const signup = async (req, res) => {
         await newUser.save()
         const token = createToken(newUser)
         user = newUser;
-        res.status(201).json({ token, user: newUser, message: 'User created' })
+        return res.status(201).json({ token, user: newUser, message: 'User created' })
     } catch (err) {
         res.status(404).json({ message: err.message })
     }
@@ -28,17 +28,17 @@ const login = async (req, res) => {
         const { username, password } = req.body
         const foundUser = await User.findOne({ username })
         if (!foundUser) {
-            res.status(404).json({ message: 'Username not found' })
+            return res.status(404).json({ message: 'Username not found' })
         }
         const correctPassword = await bcrypt.compare(password, foundUser.password)
         if (!correctPassword) {
-            res.status(404).json({ message: 'Passwords are not matching' })
+            return res.status(404).json({ message: 'Passwords are not matching' })
         }
         const token = createToken(foundUser)
         user = foundUser
-        res.status(201).json({token, user: foundUser, message: 'Logged in' })
+        return res.status(201).json({token, user: foundUser, message: 'Logged in' })
     } catch (err) {
-        res.status(404).json ({ message: err.message })
+        return res.status(404).json ({ message: err.message })
     }
 }
 

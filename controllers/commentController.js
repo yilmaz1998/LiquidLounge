@@ -1,12 +1,23 @@
 const Comment = require('../models/comment')
+const Drink = require('../models/drink')
+
 
 const createComment = async (req, res) => {
     try {
-      const comment = { ...req.body };
-    //   comment.createdBy = req.user.userId;
-      const newComment = new Comment(comment);
-      await newComment.save();
-      res.status(201).json({newComment});
+      const { drinkId, title, comment} = req.body
+      if (!comment) {
+        return res.status(400).json({ message: "Comment text is required" });
+    }
+      const newComment = new Comment({
+        title,
+        comment: comment,
+        user: req.user.id,
+        drink: drinkId
+      })
+      await newComment.save()
+
+      await Drink.findByIdAndUpdate(drinkId, { $push: { comments: newComment._id } })
+      res.status(201).json({newComment})
     } catch (error) {
       res.status(404).json({ message: error.message });
     }

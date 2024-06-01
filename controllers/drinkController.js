@@ -14,11 +14,14 @@ const createDrink = async (req, res) => {
     try {
         const newDrink = await new Drink({
             ...req.body,
-            // user: req.user.id
+            user: req.user.user._id
         })
         console.log(newDrink)
+        console.log(req.user.user._id)
+
         const savedDrink = await newDrink.save()
         res.status(200).json(savedDrink)
+        console.log(savedDrink);
 
     } catch (err) {
         console.error(err)
@@ -33,6 +36,7 @@ const showDrink = async (req, res) => {
         if (!drink) {
             return res.status(400).json({ error: "Drink not found" })
         }
+        res.json(drink)
     } catch (err) {
         res.status(400).json({ message: err.message })
     }

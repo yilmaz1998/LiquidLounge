@@ -1,13 +1,14 @@
 const express = require("express")
 const router = express.Router()
 const drinkController = require('../controllers/drinkController')
+const authMiddleware = require('../middleware/authenticate')
 
 
-router.get("/", drinkController.indexDrink)
-router.post("/new", drinkController.createDrink)
-router.get("/:id", drinkController.showDrink)
-router.put("/:id", drinkController.updateDrink)
-router.delete("/:id", drinkController.deleteDrink)
+router.get("/", authMiddleware, drinkController.indexDrink)
+router.post("/new", authMiddleware, drinkController.createDrink)
+router.get("/:id", authMiddleware, drinkController.showDrink)
+router.put("/:id", authMiddleware, drinkController.updateDrink)
+router.delete("/:id",authMiddleware,drinkController.deleteDrink)
 
 
 
