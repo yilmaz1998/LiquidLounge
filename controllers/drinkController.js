@@ -3,7 +3,8 @@ const Drink = require('../models/drink')
 
 const indexDrink = async (req, res) => {
     try {
-        const drinks = await Drink.find({})
+        const currentUser = req.user.user._id;
+        const drinks = await Drink.find({ user: currentUser })
         res.status(200).json(drinks)
     } catch (err) {
         res.status(400).json({ message: err.message })
@@ -60,10 +61,20 @@ const deleteDrink = async (req, res) => {
     }
 }
 
+const OthersDrink = async (req,res) => {
+    try {
+        const othersdrinks = await Drink.find({ user: { $ne: req.user.user._id } }).populate('user')
+        res.status(200).json(othersdrinks)
+    } catch (err) {
+        res.status(400).json({ message: err.message })
+    }
+}
+
 module.exports = {
     indexDrink,
     createDrink,
     showDrink,
     updateDrink,
     deleteDrink,
+    OthersDrink,
 }
