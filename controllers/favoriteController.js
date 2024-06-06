@@ -1,12 +1,21 @@
 const Favorite = require('../models/favorite');
 
 const createFavorite = async (req, res) => {
+    console.log(req.body)
     try {
-        const favorite = { ...req.body }
-        if (req.user) {
-            favorite.user = req.user.userId
+        const {classicDrinkId, usersDrinkId} = req.body
+        const userId = req.user.user._id
+        const existingFavorite = await Favorite.findOne({ classic: classicDrinkId, drink: usersDrinkId, user: userId });
+        if (existingFavorite) {
+            return res.status(400).json({ error: "Drink is already in favorites" });
         }
-        const newFavorite = new Favorite(favorite)
+
+        const newFavorite = new Favorite({
+            classic: classicDrinkId,
+            drink: usersDrinkId,
+            user: userId
+        })
+        console.log(newFavorite)
         await newFavorite.save()
         res.status(201).json(newFavorite)
     } catch (err) {
@@ -16,9 +25,17 @@ const createFavorite = async (req, res) => {
 
 const getFavorite = async (req, res) => {
     try {
-        const favorites = await Favorite.findById({ user: req.user.userId })
-        .populate('drink')
-        .populate("user")
+        const currentUser = req.user.user._id;
+        const favorites = await Favorite.find({ user: currentUser })
+        .populate({
+            path: 'classic',
+            model: 'classic'
+        })
+        .populate({
+            path: 'drink',
+            model: 'drink'
+        })
+        .populate('user')
         res.status(200).json(favorites);
     } catch (err) {
         res.status(400).json({ error: err.message });
