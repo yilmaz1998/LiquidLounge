@@ -77,10 +77,24 @@ const deleteComment = async (req, res) => {
     }
 };
 
+const getCommentById = async (req, res) => {
+    try {
+        const commentId = req.params.id
+        const comment = await Comment.findById(commentId)
+        if (!comment) {
+            return res.status(400).json({ error: "Comment not found" })
+        }
+        res.status(200).json(comment)
+    } catch (err) {
+        console.error(err);
+        res.status(400).json({ message: err.message })
+    }
+}
 
 module.exports = {
     createComment,
     getComment,
     deleteComment,
-    updateComment
+    updateComment,
+    getCommentById
 }

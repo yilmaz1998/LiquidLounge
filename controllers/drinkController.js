@@ -33,7 +33,7 @@ const createDrink = async (req, res) => {
 const showDrink = async (req, res) => {
     try {
         const drinkId = req.params.id
-        const drink = await Drink.findById(drinkId)
+        const drink = await Drink.findById(drinkId).populate('user')
         if (!drink) {
             return res.status(400).json({ error: "Drink not found" })
         }
