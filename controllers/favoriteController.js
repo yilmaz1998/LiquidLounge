@@ -23,6 +23,21 @@ const createFavorite = async (req, res) => {
       }
 };
 
+const showFavorite = async (req, res) => {
+    try {
+        const favoriteId = req.params.id
+        const favorite = await Favorite.findById(favoriteId)
+        .populate('drink')
+        .populate('classic')
+        if (!favorite) {
+            return res.status(400).json({ error: "Drink not found" })
+        }
+        res.json(favorite)
+    }catch (err) {
+        es.status(400).json({ message: err.message })
+    }
+}
+
 const getFavorite = async (req, res) => {
     try {
         const currentUser = req.user.user._id;
@@ -54,5 +69,6 @@ const deleteFavorite = async (req, res) => {
 module.exports = {
     createFavorite,
     getFavorite,
-    deleteFavorite
+    deleteFavorite,
+    showFavorite
 };
